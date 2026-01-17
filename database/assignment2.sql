@@ -9,6 +9,9 @@ INSERT INTO public.account (account_firstname, account_lastname, account_email, 
 UPDATE public.account
 	SET account_type = 'Admin'
 	WHERE account_id = 1;
+-- Delete Tony Stark Record
+DELETE FROM public.account
+	WHERE account_id = 1;
 -- Update Description
 UPDATE public.inventory
 	SET inv_description = REPLACE(inv_description, 'the small interiors', 'a huge interior')
