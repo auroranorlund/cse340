@@ -60,7 +60,6 @@ header {
 nav {
   background-color: var(--secondary);
   font-size: 1.2rem;
-  max-width: 100%;
   ul {
       display: flex;
       flex-direction: row;
@@ -69,12 +68,19 @@ nav {
       padding: 0;
       margin-top: 0;
       margin-bottom: 0;
+      max-width: 100%;
       li {
+        font-size: 1rem;
+        background-color: var(--secondary);
         padding: 1rem 0.5rem 1rem 0.5rem;
         &:hover {
           background-color: var(--accent);
           cursor: pointer;
         }
+      }
+      a {
+          color: var(--text);
+          text-decoration: none;
       }
   }
 }
@@ -170,6 +176,45 @@ h1 {
   justify-items: center;
   align-items: center;
 }
+/*************** Inventory Pages ***************/
+#inv-display {
+    list-style-type: none;
+    display: grid;
+    grid-template-columns: 1fr;
+    justify-self: center;
+    justify-items: center;
+    margin: 1rem;
+    padding: 0;
+  li {
+    margin: 1rem;
+    img {
+      max-width: 100%;
+      margin: auto;
+    }
+    a {
+      color: var(--text);
+      font-size: 1rem;
+      &:hover {
+        color: var(--accent);
+      }
+    }
+  }
+}
+
+.namePrice {
+  text-align: center;
+  h2 {
+    margin: 0;
+  }
+}
+
+/*************** Error Page ***************/
+
+.error {
+  margin: auto;
+  text-align: center;
+}
+
 /*************** Large Views ***************/
 @media (min-width: 37.5em) {
   .siteName {
@@ -221,5 +266,8 @@ h1 {
         line-height: 3;
       }
     }
+  }
+  #inv-display {
+    grid-template-columns: 1fr 1fr 1fr;
   }
 }
