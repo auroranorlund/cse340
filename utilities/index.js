@@ -58,6 +58,27 @@ Util.buildClassificationGrid = async function(data){
   return grid
 }
 
+/* **************************************
+* Build the inventory detail view HTML
+* ************************************ */
+Util.buildInvDetail = async function(data){
+  let detail
+  if (data.length > 0) {
+    product = data[0]
+    detail = ''
+    detail += '<img src="' + product.inv_image 
+      +'" alt="Image of '+ product.inv_make + ' ' + product.inv_model 
+      + ' on CSE Motors" />'
+    detail += '<div class="detail-text"><p><span>Price:</span> $' + new Intl.NumberFormat('en-US').format(product.inv_price) + '</p>'
+    detail += '<p><span>Description:</span> ' + product.inv_description + '</p>'
+    detail += '<p><span>Color:</span> ' + product.inv_color + '</p>'
+    detail += '<p><span>Miles:</span> ' + new Intl.NumberFormat('en-US').format(product.inv_miles) + '</p></div>'
+  } else { 
+    detail += '<p class="notice">Sorry, that vehicle could not be found in our inventory.</p>'
+  }
+  return detail
+}
+
 /* ****************************************
  * Middleware For Handling Errors
  * Wrap other function in this for 
