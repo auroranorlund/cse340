@@ -1,0 +1,50 @@
+<%# Content Heading %>
+<% if (title) { %>
+    <h1 id="login-header">
+    <%= title %>
+    </h1>
+<% } else { res.redirect('/') } %>
+
+<%- messages() %>
+
+<% if (errors) { %>
+    <ul class="notice">
+        <% errors.array().forEach(error=> { %>
+            <li>
+                <%= error.msg %>
+            </li>
+            <% }) %>
+    </ul>
+    <% } %>
+
+<form action="/inv/add-inventory" method="post" class="add-inventory">
+    <p class="required">(Fields marked with a * are required)</p>
+    <label for="inv_make">Make<span class="required-asterisk">*</span>:</label>
+    <input type="text" id="inv_make" name="inv_make" required value="<%= locals.inv_make %>">
+
+    <label for="inv_model">Model<span class="required-asterisk">*</span>:</label>
+    <input type="text" id="inv_model" name="inv_model" required value="<%= locals.inv_model %>">
+
+    <label for="inv_year">Year<span class="required-asterisk">*</span>:</label>
+    <input type="text" id="inv_year" name="inv_year" required value="<%= locals.inv_year %>" pattern="^[0-9]{4}$">
+
+    <label for="inv_description">Description<span class="required-asterisk">*</span>:</label>
+    <input type="text" id="inv_description" name="inv_description" required value="<%= locals.inv_description %>">
+
+    <label for="inv_price">Price<span class="required-asterisk">*</span>:</label>
+    <p class="required">(Do not include $ or commas)</p>
+    <input type="text" id="inv_price" name="inv_price" required value="<%= locals.inv_description %>" pattern="^\d{1,9}$">
+
+    <label for="inv_miles">Miles<span class="required-asterisk">*</span>:</label>
+    <p class="required">(Do not include commas)</p>
+    <input type="text" id="inv_miles" name="inv_miles" required value="<%= locals.inv_description %>" pattern="^[0-9]+$">
+
+    <label for="inv_color">Color<span class="required-asterisk">*</span>:</label>
+    <input type="text" id="inv_color" name="inv_color" required value="<%= locals.inv_description %>">
+
+    <label for="classification_id">Classification Type<span class="required-asterisk">*</span>:
+    <%- classificationList %>
+    </label>
+
+    <input type="submit" value="Add Inventory" id="login-button">
+</form>

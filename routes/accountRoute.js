@@ -8,6 +8,7 @@ const regValidate = require('../utilities/account-validation')
 router.get("/login", utilities.handleErrors(accountController.buildLogin));
 // Route to build registration view
 router.get("/registration", utilities.handleErrors(accountController.buildRegistration));
+// Process registration
 router.post(
   "/registration",
   regValidate.registationRules(),

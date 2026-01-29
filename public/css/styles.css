@@ -238,12 +238,12 @@ h1 {
    }
 }
 
-/*************** Login & Registration Page ***************/
+/*************** Login & Registration Page & Other Forms ***************/
 #login-header {
   margin-bottom: 0;
   margin-left: 1rem;
 }
-.login, .registration {
+.login, .registration, .add-classification, .add-inventory {
   display: flex;
   flex-direction: column;
   background-color: var(--secondary);
@@ -256,7 +256,7 @@ h1 {
     font-weight: bold;
     margin: 0.25rem;
   }
-  input {
+  input, select {
     max-width: 90%;
     border-radius: 0.5rem;
     border: none;
@@ -293,6 +293,28 @@ h1 {
   font-size: 0.8rem;
   li {
     font-style: italic;
+  }
+}
+
+/*************** Management Page ***************/
+
+.management {
+  display: flex;
+  justify-self: center;
+  justify-items: center;
+  justify-content: center;
+  a {
+    background-color: var(--primary);
+    color: var(--background);
+    border-radius: 0.5rem;
+    padding: 1rem;
+    margin: 1rem;
+    text-align: center;
+    text-decoration: none;
+    &:hover {
+      background-color: var(--secondary);
+      color: var(--text);
+    }
   }
 }
 
@@ -361,7 +383,7 @@ h1 {
       align-self: center;
     }
   }
-  .login, .registration {
+  .login, .registration, .add-classification {
     max-width: 25%;
   }
 }
