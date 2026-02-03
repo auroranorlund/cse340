@@ -243,7 +243,7 @@ h1 {
   margin-bottom: 0;
   margin-left: 1rem;
 }
-.login, .registration, .add-classification, .add-inventory {
+.login, .registration, .add-classification, .add-inventory, .inventory-management {
   display: flex;
   flex-direction: column;
   background-color: var(--secondary);
@@ -316,6 +316,31 @@ h1 {
       color: var(--text);
     }
   }
+}
+
+.inventory-management {
+  justify-self: center;
+  padding: 1rem;
+  select {
+    justify-self: center;
+    margin: 0.25rem;
+  }
+  h2 {
+    margin: 0;
+    text-align: center;
+  }
+  table {
+    justify-self: center;
+    max-width: 90%;
+    font-size: 1rem;
+    th {
+      text-align: left;
+    }
+    td {
+      padding: 0.25rem;
+    }
+  }
+
 }
 
 /*************** Large Views ***************/

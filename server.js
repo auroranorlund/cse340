@@ -19,6 +19,7 @@ const accountRoute = require("./routes/accountRoute")
 const utilities = require("./utilities/index")
 const session = require("express-session")
 const pool = require('./database/')
+const cookieParser = require("cookie-parser")
 
 
 /* ***********************
@@ -52,6 +53,10 @@ app.use(function(req, res, next){
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
+
+app.use(cookieParser())
+
+app.use(utilities.checkJWTToken)
 
 /* ***********************
  * Routes

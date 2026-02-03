@@ -1,0 +1,10 @@
+<%# Content Heading %>
+<% if (title) { %>
+    <h1 id="login-header">
+    <%= title %>
+    </h1>
+<% } else { res.redirect('/') } %>
+
+<%- messages() %>
+
+<p>You're logged in.</p>
