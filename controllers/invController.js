@@ -169,10 +169,8 @@ invCont.getInventoryJSON = async (req, res, next) => {
  * ************************** */
 invCont.buildEditInvView = async function (req, res, next) {
   const inv_id = parseInt(req.params.inv_id)
-  console.log(inv_id)
   let nav = await utilities.getNav()
   const itemData = await invModel.getInventoryByInvId(inv_id)
-  console.log(itemData)
   const classificationList = await utilities.buildClassificationList(itemData.classification_id)
   const itemName = `${itemData[0].inv_make} ${itemData[0].inv_model}`
   console.log(itemName)
@@ -238,6 +236,56 @@ invCont.editInventory = async function(req, res) {
       inv_miles,
       inv_color,
       classification_id
+    })
+  }
+}
+
+/* ***************************
+ *  Build delete inventory view
+ * ************************** */
+invCont.buildDeleteInvView = async function (req, res, next) {
+  const inv_id = parseInt(req.params.inv_id)
+  let nav = await utilities.getNav()
+  const itemData = await invModel.getInventoryByInvId(inv_id)
+  const itemName = `${itemData[0].inv_make} ${itemData[0].inv_model}`
+  console.log(itemName)
+  res.render("./inventory/delete-inventory", {
+    title: "Delete " + itemName,
+    nav,
+    errors: null,
+    inv_id: itemData[0].inv_id,
+    inv_make: itemData[0].inv_make,
+    inv_model: itemData[0].inv_model,
+    inv_year: itemData[0].inv_year,
+    inv_price: itemData[0].inv_price
+  })
+}
+
+/* ****************************************
+*  Process Delete New Inventory
+* *************************************** */
+invCont.deleteInventory = async function(req, res) {
+  let nav = await utilities.getNav()
+  const { inv_id, inv_make, inv_model, inv_year, inv_price } = req.body
+
+  const deleteResult = await invModel.deleteInventory(parseInt(inv_id))
+  console.log(deleteResult)
+
+  if (deleteResult) {
+  const itemName = inv_make + " " + inv_model
+    req.flash("notice", `The ${itemName} was successfully deleted.`)
+    res.redirect("/inv/management")
+  } else {
+    req.flash("notice", "Sorry, the delete failed.")
+    res.status(501).render("./inventory/delete-inventory", {
+      title: "Delete" + inv_make + " " + inv_model,
+      nav,
+      errors: null,
+      inv_id,
+      inv_make,
+      inv_model,
+      inv_year,
+      inv_price
     })
   }
 }
