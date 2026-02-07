@@ -1,0 +1,38 @@
+<%# Content Heading %>
+<% if (title) { %>
+    <h1>
+        <%= title %>
+    </h1>
+<% } else { res.redirect('/') } %>
+
+<%- messages() %>
+
+<% if (errors) { %>
+    <ul class="notice">
+        <% errors.array().forEach(error=> { %>
+            <li>
+                <%= error.msg %>
+            </li>
+            <% }) %>
+    </ul>
+    <% } %>
+
+<div class="user-details">
+    <p>User Name: <%- account_firstname %><%- account_lastname %></p>
+    <p>User Email: <%- account_email %></p>
+</div>
+<form action="/account/update-permissions" method="post" class="registration">
+    <p>User Permission Level</p>
+    <label>
+        <input type="radio" name="account_type" value="Client" required>Client
+    </label>
+    <label>
+        <input type="radio" name="account_type" value="Employee" required>Employee
+    </label>
+    <label>
+        <input type="radio" name="account_type" value="Admin" required>Admin
+    </label>
+    <input type="hidden" name="account_id" <% if(locals.account_id) { %> value="<%= locals.account_id %>"
+        <% } %>>
+    <input type="submit" value="Update Permissions" id="login-button">
+</form>

@@ -158,4 +158,34 @@ Util.checkJWTToken = (req, res, next) => {
   }
 }
 
+/* ****************************************
+ *  Check for admin permissions
+ * ************************************ */
+ Util.checkAdmin = (req, res, next) => {
+  if (res.locals.accountData.account_type == "Admin") {
+    next()
+  } else {
+    req.flash("notice", "That page is restricted to admins only. If you are an admin, please log in with the correct account.")
+    return res.redirect("/account/login")
+  }
+}
+
+/* **************************************
+* Build the classification view HTML
+* ************************************ */
+Util.buildPermissionTable = async function(data){
+  let permissionTable = '<thead>'; 
+  permissionTable += '<tr><th>First Name</th><th>Last Name</th><th>User Type</th><td>&nbsp;</td></tr>'; 
+  permissionTable += '</thead>'; 
+ // Set up the table body 
+ permissionTable += '<tbody>'; 
+ // Iterate over all vehicles in the array and put each in a row 
+ data.forEach(function (element) { 
+  permissionTable += `<tr><td>${element.account_firstname}</td><td>${element.account_lastname}</td><td>${element.account_type}</td>`; 
+  permissionTable += `<td><a href='/account/update-permissions/${element.account_id}'>Edit</a></td></tr>`; 
+ }) 
+ permissionTable += '</tbody>';
+  return permissionTable
+}
+
 module.exports = Util

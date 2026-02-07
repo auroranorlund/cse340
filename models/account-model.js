@@ -80,4 +80,51 @@ async function updatePassword(account_password, account_id) {
   }
 }
 
-module.exports = {registerAccount, checkExistingEmail, getAccountByEmail, updateAccountInfo, updatePassword}
+/* ***************************
+ *  Get a list of all users with account details
+ * ************************** */
+async function getUserList() {
+  try {
+    const data = await pool.query(
+      `SELECT account_id, account_firstname, account_lastname, account_email, account_type FROM public.account`
+    )
+    return data.rows
+  } catch (error) {
+    console.error("getuserlist error " + error)
+  }
+}
+
+/* *****************************
+*   Get user by id
+* *************************** */
+async function getUserById(account_id) {
+  try {
+    const sql =
+      "SELECT account_firstname, account_lastname, account_email, account_type FROM public.account WHERE account_id = $1"
+    const data = await pool.query(sql, [
+    account_id
+    ])
+    return data.rows[0]
+  } catch (error) {
+    console.error("model error: " + error)
+  }
+}
+
+/* *****************************
+*   Update User Permissions
+* *************************** */
+async function updatePermission(account_type, account_id) {
+  try {
+    const sql =
+      "UPDATE public.account SET account_type = $1 WHERE account_id = $2 RETURNING *"
+    const data = await pool.query(sql, [
+    account_type,
+    account_id
+    ])
+    return data.rows[0]
+  } catch (error) {
+    console.error("model error: " + error)
+  }
+}
+
+module.exports = {registerAccount, checkExistingEmail, getAccountByEmail, updateAccountInfo, updatePassword, getUserList, getUserById, updatePermission}

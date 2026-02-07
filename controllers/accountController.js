@@ -247,4 +247,83 @@ accountController.logOut = async function (req, res) {
   res.redirect("/")
 }
 
+/* ****************************************
+*  Deliver user permission management view
+* *************************************** */
+
+accountController.buildPermissionManagement = async function(req, res){
+  let nav = await utilities.getNav()
+  const data = await accountModel.getUserList()
+  let accountTable = await utilities.buildPermissionTable(data)
+  res.render("account/manage", {
+    title: "Manage User Permissions",
+    nav,
+    accountTable
+  })
+}
+
+/* ****************************************
+*  Deliver update permissions view by account id
+* *************************************** */
+
+accountController.buildPermissionUpdate = async function(req, res){
+  let nav = await utilities.getNav()
+  const account_id = req.params.accountId
+  const data = await accountModel.getUserById(account_id)
+  const account_firstname = data.account_firstname
+  const account_lastname = data.account_lastname
+  const account_email = data.account_email
+  res.render("account/update-permissions", {
+    title: account_firstname + " " + account_lastname + " " + "User Permissions",
+    nav,
+    errors: null,
+    account_id,
+    account_firstname,
+    account_lastname,
+    account_email,
+  })
+}
+
+/* ****************************************
+*  Process Update Permissions
+* *************************************** */
+accountController.updatePermission = async function(req, res) {
+  let nav = await utilities.getNav()
+  const { account_type, account_id } = req.body
+
+    const updateResult = await accountModel.updatePermission(
+      account_type,
+      account_id
+    )
+
+    if (updateResult) {
+      req.flash(
+        "notice",
+        `User Permissions Updated`
+      )
+      const data = await accountModel.getUserList()
+      let accountTable = await utilities.buildPermissionTable(data)
+      res.status(201).render("account/manage", {
+        title: "Manage User Permissions",
+        nav,
+        accountTable
+      })
+    } else {
+      req.flash("notice", "Sorry, the update failed.")
+      const data = await accountModel.getUserById(account_id)
+      const account_firstname = data.account_firstname
+      const account_lastname = data.account_lastname
+      const account_email = data.account_email
+      res.status(501).render("account/update-permissions", {
+        title: account_firstname + " " + account_lastname + " " + "User Permissions",
+        nav,
+        errors: null,
+        account_firstname,
+        account_lastname,
+        account_email,
+        account_id
+      })
+    }
+}
+
 module.exports = accountController

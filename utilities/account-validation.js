@@ -224,4 +224,46 @@ validate.checkPasswordData = async (req, res, next) => {
   next()
 }
 
+/*  **********************************
+  *  Update Permission Data Validation Rules
+  * ********************************* */
+  validate.updatePermissionRules = () => {
+    return [
+      // Account type is required
+      body("account_type")
+        .trim()
+        .escape()
+        .notEmpty()
+        .isLength({ min: 1 })
+        .withMessage("Please select an account type."), // on error this message is sent.
+    ]
+}
+
+/* ******************************
+ * Check data and return errors or continue to update permission
+ * ***************************** */
+validate.checkPermissionData = async (req, res, next) => {
+  const { account_id } = req.body
+  let errors = []
+  errors = validationResult(req)
+  if (!errors.isEmpty()) {
+    let nav = await utilities.getNav()
+    const data = await accountModel.getUserById(account_id)
+    const account_firstname = data.account_firstname
+    const account_lastname = data.account_lastname
+    const account_email = data.account_email
+    res.render("account/update-permissions", {
+      errors,
+      title: account_firstname + " " + account_lastname + " " + "User Permissions",
+      nav,
+      account_firstname,
+      account_lastname,
+      account_email,
+      account_id
+    })
+    return
+  }
+  next()
+}
+
 module.exports = validate

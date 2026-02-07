@@ -42,5 +42,15 @@ router.post(
 )
 // Logout process
 router.get("/logout", utilities.handleErrors(accountController.logOut));
-
+// Route to build user permission management view
+router.get("/manage", utilities.checkLogin, utilities.checkAdmin, utilities.handleErrors(accountController.buildPermissionManagement));
+// Route to build permission update view
+router.get("/update-permissions/:accountId", utilities.checkLogin, utilities.checkAdmin, utilities.handleErrors(accountController.buildPermissionUpdate));
+// Process account permissions update
+router.post(
+  "/update-permissions",
+  regValidate.updatePermissionRules(),
+  regValidate.checkPermissionData,
+  utilities.handleErrors(accountController.updatePermission)
+)
 module.exports = router;
